@@ -1,22 +1,34 @@
-const generateVideo = require("./workers/VideoGenrerator");
+const generateVideo = require("./workers/videoGenrerator");
 const generateAudio = require("./workers/audioGenerator");
 const generateFrames = require("./workers/frameGenerator");
 
 const create = async (text) => {
-  // generate Frames in data folder
-  // let { frameCount } = await generateFrames(text);
+    // generate Frames in data folder
+    console.log("Frame Generation in progress....");
+    let frameCount = await generateFrames(text);
 
-  let res = await generateAudio(text);
+    console.log("Audio Generation in progress....");
+    let { timestamps } = await generateAudio(text);
 
-  // let { videoPath } = await generateVideo();
+    console.log(frameCount);
+    console.log(timestamps);
 
-  // return videoPath;
+    console.log("Video Generation in progress....");
+    let { videoPath } = await generateVideo(frameCount, timestamps);
+
+    return videoPath;
 };
 
 const text =
-  "Curious how many Whop communities are running VPN arbitrage\n\nTurning on VPN\n\nFinding product\n\nBuying product cheaper\n\nWhop it\nPush to paid Discord communities\nThe average will not realize the opportunity \n\nHuge Cashflow operation if done right\n\nNot legal advice";
+    "Curious how many Whop communities are running VPN arbitrage\n\nTurning on VPN\n\nFinding product\n\nBuying product cheaper\n\nWhop it\nPush to paid Discord communities\nThe average will not realize the opportunity \n\nHuge Cashflow operation if done right\n\nNot legal advice";
 
-create(text);
+create(text)
+    .then((res) => {
+        console.log(res);
+    })
+    .catch((err) => {
+        console.error("Error", err);
+    });
 
 /**
 Curious how many Whop communities are running VPN arbitrage
