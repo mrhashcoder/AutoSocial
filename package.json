@@ -11,6 +11,8 @@
   "dependencies": {
     "@google-cloud/text-to-speech": "^5.0.2",
     "canvas": "^2.11.2",
-    "fluent-ffmpeg": "^2.1.2"
+    "fluent-ffmpeg": "^2.1.2",
+    "rubberband": "^0.2.0",
+    "soundtouch": "^5.0.0"
   }
 }

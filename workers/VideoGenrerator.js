@@ -8,7 +8,7 @@ const outputFile = path.join(__dirname, "..", "data", "output.mp4");
 
 const generateVideo = async (frameCount, timeStamps) => {
     const frames = fs.readdirSync(frameFolderPath).filter((file) => file.endsWith(".png"));
-    const command = ffmpeg(audioFile).audioCodec("mp2fixed");
+    const command = ffmpeg();
 
     for (let i = 0; i < frameCount; i++) {
         let inputOptionsData = ["-loop 1"];
@@ -23,7 +23,10 @@ const generateVideo = async (frameCount, timeStamps) => {
         command.input(`${frameFolderPath}/${frames[i]}`).inputOptions(inputOptionsData);
     }
 
-    command.input(audioFile);
+    const pitch = 0.42;
+    const speed = 1.3;
+    const filter = `atempo=${speed},asetrate=44100*${pitch}`;
+    command.input(audioFile).audioFilters(filter);
 
     command.complexFilter([{ filter: "concat", options: { n: frameCount, v: 1, a: 0 } }]);
 
