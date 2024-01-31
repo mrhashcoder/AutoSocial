@@ -2,9 +2,9 @@ const ffmpeg = require("fluent-ffmpeg");
 const fs = require("fs");
 const path = require("path");
 
-const frameFolderPath = path.join(__dirname, "..", "data");
-const audioFile = path.join(__dirname, "..", "data", "audio.mp3");
-const outputFile = path.join(__dirname, "..", "data", "output.mp4");
+const frameFolderPath = path.join(__dirname, "..", "public");
+const audioFile = path.join(__dirname, "..", "public", "audio.mp3");
+const outputFile = path.join(__dirname, "..", "public", "output.mp4");
 
 const generateVideo = async (frameCount, timeStamps) => {
     const frames = fs.readdirSync(frameFolderPath).filter((file) => file.endsWith(".png"));
@@ -34,17 +34,36 @@ const generateVideo = async (frameCount, timeStamps) => {
 
     // Set the output file
     command.output(outputFile);
+    let isProcessComplete = false;
+
+    async function onEnd() {
+        console.log("Video Generation finished");
+        isProcessComplete = true;
+    }
 
     command
         .on("error", function (err) {
             console.error("An error occurred: " + err.message);
+            return new Error("An error occurred: " + err.message);
         })
-        .on("end", function () {
-            console.log("Processing finished !");
-        })
+        .on("end", onEnd)
         .run();
 
-    return { videoPath: outputFile };
+    function waitForProcessToComplete() {
+        return new Promise((resolve, reject) => {
+            setInterval(() => {
+                if (isProcessComplete === true) {
+                    resolve();
+                    return isProcessComplete;
+                }
+            }, 100); // Polling in 100ms
+        });
+    }
+
+    await waitForProcessToComplete();
+    console.log("Returning Video Path", outputFile);
+    const videoPath = outputFile;
+    return { videoPath };
 };
 
 module.exports = generateVideo;

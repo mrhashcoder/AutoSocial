@@ -2,7 +2,7 @@ const { createCanvas, loadImage } = require("canvas");
 const fs = require("fs");
 const path = require("path");
 
-const backgroundImage = path.join(__dirname, "..", "data", "background.png");
+const backgroundImage = path.join(__dirname, "..", "public", "background.png");
 
 const startY = 630;
 const endY = 1700;
@@ -130,11 +130,11 @@ const generateFrames = async (text) => {
     const wordsData = processText(text, ctx);
     console.log(wordsData);
     const background = await loadImage(backgroundImage);
-    const totalFrames = wordsData.length;
+    const frameCount = wordsData.length;
 
-    for (let i = 0; i < totalFrames; i++) {
+    for (let i = 0; i < frameCount; i++) {
         generateFrameFor(i, wordsData, ctx, background);
-        const fileName = "./data/Frame_" + ("" + i).padStart(5, "0") + ".png";
+        const fileName = "./public/Frame_" + ("" + i).padStart(5, "0") + ".png";
         const out = fs.createWriteStream(fileName);
         const stream = canvas.createPNGStream();
         stream.pipe(out);
@@ -144,8 +144,9 @@ const generateFrames = async (text) => {
 
         await new Promise((resolve) => setTimeout(resolve, frameDuration));
     }
+    let firstFramePath = path.join(__dirname, "..", "public", "Frame_00000.png");
 
-    return totalFrames;
+    return { frameCount, firstFramePath };
 };
 /*
 

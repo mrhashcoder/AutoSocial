@@ -2,7 +2,7 @@ const { TextToSpeechClient } = require("@google-cloud/text-to-speech").v1beta1;
 const fs = require("fs");
 const util = require("util");
 const pausetime = "0.4s";
-const outputFile = "data/audio.mp3";
+const outputFile = "public/audio.mp3";
 
 const mergeSmml = (smmlWords) => {
     let addedSmmlWords = "";
