@@ -1,4 +1,4 @@
-const generateVideo = require("./videoGenrerator");
+const generateVideo = require("./videoGenerator");
 const generateAudio = require("./audioGenerator");
 const generateFrames = require("./frameGenerator");
 
