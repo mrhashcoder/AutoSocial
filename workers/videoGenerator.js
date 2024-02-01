@@ -11,6 +11,7 @@ const generateVideo = async (frameCount, timeStamps) => {
     const command = ffmpeg();
 
     for (let i = 0; i < frameCount; i++) {
+        console.log(`Adding Frame ${frames[i]}`);
         let inputOptionsData = ["-loop 1"];
         let duration = 0;
         if (i == 0) {
