@@ -9,6 +9,8 @@ app.use(bodyParser.json());
 const indexRouter = require("./routes/index");
 
 // Use Routes
+
+app.use(express.static("public"));
 app.use(indexRouter);
 
 module.exports = app;
