@@ -4,7 +4,7 @@ const path = require("path");
 
 const frameFolderPath = path.join(__dirname, "..", "public");
 const audioFile = path.join(__dirname, "..", "public", "audio.mp3");
-const outputFile = path.join(__dirname, "..", "public", "output.avi");
+const outputFile = path.join(__dirname, "..", "public", "output.mp4");
 
 const generateVideo = async (frameCount, timeStamps) => {
     const frames = fs.readdirSync(frameFolderPath).filter((file) => file.endsWith(".png"));
