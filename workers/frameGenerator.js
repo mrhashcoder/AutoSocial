@@ -5,7 +5,7 @@ const path = require("path");
 const backgroundImage = path.join(__dirname, "..", "public", "background.png");
 
 const frameDuration = 100;
-const frameQuality = 40;
+const frameQuality = 30;
 
 const CANVAS_WIDTH = Math.round(1080 * (frameQuality / 100));
 const CANVAS_HEIGHT = Math.round(1920 * (frameQuality / 100));
