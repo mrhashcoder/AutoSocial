@@ -28,7 +28,7 @@ const generateVideo = async (frameCount, timeStamps) => {
     const pitch = 0.42;
     const speed = 1.3;
     const filter = `atempo=${speed},asetrate=44100*${pitch}`;
-    // command.input(audioFile).audioFilters(filter);
+    command.input(audioFile).audioFilters(filter);
 
     command.complexFilter([{ filter: "concat", options: { n: frameCount, v: 1, a: 0 } }]);
 
