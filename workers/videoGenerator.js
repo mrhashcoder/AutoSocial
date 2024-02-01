@@ -5,6 +5,7 @@ const path = require("path");
 const frameFolderPath = path.join(__dirname, "..", "public");
 const audioFile = path.join(__dirname, "..", "public", "audio.mp3");
 const outputFile = path.join(__dirname, "..", "public", "output.mp4");
+const threadCount = 1;
 
 const generateVideo = async (frameCount, timeStamps) => {
     const frames = fs.readdirSync(frameFolderPath).filter((file) => file.endsWith(".png"));
@@ -32,6 +33,7 @@ const generateVideo = async (frameCount, timeStamps) => {
     command.complexFilter([{ filter: "concat", options: { n: frameCount, v: 1, a: 0 } }]);
 
     command.videoCodec("libx264").audioCodec("libmp3lame").outputOptions("-pix_fmt yuv420p").outputOptions("-r 60");
+    command.outputOptions(`-threads ${threadCount}`);
 
     // Set the output file
     command.output(outputFile);
