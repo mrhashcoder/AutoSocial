@@ -41,12 +41,23 @@ const generateVideo = async (frameCount, timeStamps) => {
         isProcessComplete = true;
     }
 
+    let totalExpectedTime = 1;
+
     command
         .on("error", function (err) {
             console.error("An error occurred: " + err.message);
             return new Error("An error occurred: " + err.message);
         })
         .on("end", onEnd)
+        .on("codecData", (data) => {
+            console.log(data);
+            totalExpectedTime = parseInt(data.duration.replace(/:/g, ""));
+            console.log(`Total Expected Time for Video generation : ${totalExpectedTime}`);
+        })
+        .on("progress", (progress) => {
+            console.log(`In Progress`);
+            console.log(progress);
+        })
         .run();
 
     function waitForProcessToComplete() {
