@@ -4,14 +4,17 @@ const path = require("path");
 
 const backgroundImage = path.join(__dirname, "..", "public", "background.png");
 
-const startY = 630;
-const endY = 1700;
-const padding = 10;
-const fontSize = 65;
-const marginX = 110;
-const CANVAS_WIDTH = 1080;
-const CANVAS_HEIGHT = 1920;
 const frameDuration = 100;
+const frameQuality = 40;
+
+const CANVAS_WIDTH = Math.round(1080 * (frameQuality / 100));
+const CANVAS_HEIGHT = Math.round(1920 * (frameQuality / 100));
+
+const startY = Math.round(630 * (CANVAS_HEIGHT / 1920));
+const endY = Math.round(1700 * (CANVAS_HEIGHT / 1920));
+const padding = Math.round(10 * (CANVAS_WIDTH / 1080));
+const fontSize = Math.round(65 * (CANVAS_HEIGHT / 1920));
+const marginX = Math.round(110 * (CANVAS_WIDTH / 1080));
 
 const getParagraphY = (text, ctx) => {
     const widthX = CANVAS_WIDTH - marginX - marginX;
@@ -122,7 +125,7 @@ const generateFrameFor = async (idx, wordsData, ctx, background) => {
 };
 
 const generateFrames = async (text) => {
-    const canvas = createCanvas(1080, 1920);
+    const canvas = createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
     const ctx = canvas.getContext("2d");
     ctx.font = `${fontSize}px Times New Roman`;
     ctx.fillStyle = "white";
@@ -133,10 +136,10 @@ const generateFrames = async (text) => {
     const frameCount = wordsData.length;
 
     for (let i = 0; i < frameCount; i++) {
-        generateFrameFor(i, wordsData, ctx, background);
+        await generateFrameFor(i, wordsData, ctx, background);
         const fileName = "./public/Frame_" + ("" + i).padStart(5, "0") + ".png";
         const out = fs.createWriteStream(fileName);
-        const stream = canvas.createPNGStream();
+        const stream = canvas.createPNGStream({ quality: frameQuality });
         stream.pipe(out);
         out.on("finish", () => {
             console.log(`Frame Generation for ${i} Completed`);
