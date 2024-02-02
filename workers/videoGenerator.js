@@ -1,6 +1,9 @@
 const ffmpeg = require("fluent-ffmpeg");
 const fs = require("fs");
 const path = require("path");
+const ffmpegStatic = require("ffmpeg-static");
+
+ffmpeg.setFfmpegPath(ffmpegStatic);
 
 const frameFolderPath = path.join(__dirname, "..", "public");
 const audioFile = path.join(__dirname, "..", "public", "audio.mp3");
