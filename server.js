@@ -15,5 +15,9 @@ const indexRouter = require("./routes/index");
 
 app.use(express.static("public"));
 app.use(indexRouter);
+app.use((req, res, next) => {
+    console.log(req);
+    next();
+});
 
 module.exports = app;
