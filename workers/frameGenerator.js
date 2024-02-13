@@ -1,4 +1,4 @@
-const { createCanvas, loadImage } = require("canvas");
+const { createCanvas, loadImage, registerFont } = require("canvas");
 const fs = require("fs");
 const path = require("path");
 
@@ -15,6 +15,11 @@ const endY = Math.round(1700 * (CANVAS_HEIGHT / 1920));
 const padding = Math.round(10 * (CANVAS_WIDTH / 1080));
 const fontSize = Math.round(65 * (CANVAS_HEIGHT / 1920));
 const marginX = Math.round(110 * (CANVAS_WIDTH / 1080));
+const fontToUse = 'Playfair'
+// register all fonts.
+registerFont('./res/fonts/PlayfairDisplay.ttf' , {family : 'Playfair'})
+
+
 
 const getParagraphY = (text, ctx) => {
     const widthX = CANVAS_WIDTH - marginX - marginX;
@@ -127,7 +132,7 @@ const generateFrameFor = async (idx, wordsData, ctx, background) => {
 const generateFrames = async (text) => {
     const canvas = createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
     const ctx = canvas.getContext("2d");
-    ctx.font = `${fontSize}px Times New Roman`;
+    ctx.font = `${fontSize}px ${fontToUse}`;
     ctx.fillStyle = "white";
 
     const wordsData = processText(text, ctx);
